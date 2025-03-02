@@ -26,16 +26,19 @@ def get_public_ip():
 
 
 def get_dns_records():
-    pages = client.dns.records.list(zone_id=ZONE_ID)
-    page = pages.result[0]
-    print(page)
-    return 
+    pages = client.dns.records.list(
+        zone_id=ZONE_ID,
+        type='A',
+    )
+    return pages.result
 
 
-def update_dns_record(record_id, ip):
+def update_dns_record(record_id, record_name, ip):
     record_response = client.dns.records.update(
         zone_id=ZONE_ID,
         dns_record_id=record_id,
+        name=record_name,
+        type='A',
         content=ip
     )
     print(record_response)
@@ -47,17 +50,16 @@ def main():
 
     dns_records = get_dns_records()
     print(dns_records)
-    record_id = None
 
-    for record in dns_records:
-        record_id = record['id']
-        if record['content'] != current_ip:
-            print(f'IP has changed from {record["content"]} to {current_ip}. Updating DNS record...')
-            # update_dns_record(record_id, current_ip)
-        else:
-            print('IP has not changed. No update needed.')
+    if dns_records:
+        for record in dns_records:
+            if record.content != current_ip:
+                print(f'IP has changed from {record.content} to {current_ip}. Updating DNS record...')
+                update_dns_record(record.id, record.name, current_ip)
+            else:
+                print('IP has not changed. No update needed.')
 
-    if record_id is None:
+    else:
         print('DNS record not found.')
 
 

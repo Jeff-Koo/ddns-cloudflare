@@ -10,5 +10,5 @@ COPY . .
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 
-# Run ddns-updater.py when the container launches
-CMD ["python", "./ddns-updater.py"]
+# Run dns-updater.py when the container launches
+CMD ["python", "./dns-updater.py"]
