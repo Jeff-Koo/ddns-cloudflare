@@ -24,4 +24,4 @@ jobs:
       run: docker build . --file Dockerfile --tag dns-updater:production
 
     - name: Push the Docker Image
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/dns-updater:production
+      run: docker push jeffkoo/dns-updater:production
