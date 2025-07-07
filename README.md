@@ -16,5 +16,5 @@ Edit your crontab by running `crontab -e`.
 Add the following line:
 
 ```bash
-0 0 * * * docker run --rm --env-file .env dns-updater:production
+0 0 * * * docker run --rm --env-file {FULL_PATH}/.env dns-updater:production
 ```
